@@ -40,3 +40,7 @@ When the oystercard balance is less than 1 (EG when the oyster card is first cre
 #### Journey history
 
 Each time a journey is made the entry station is recorded through the `touch_in` method, and the exit station is recorded through the `touch_out` method. These two pieces of information are stored as a hash. A card's overall journey history is stored as an array of hashes called `journey_history`.
+
+#### Stations
+
+Each station in the network is an instance of the Station class. Each station has a `name` and `zone` attribute.
