@@ -44,3 +44,8 @@ Each time a journey is made the entry station is recorded through the `touch_in`
 #### Stations
 
 Each station in the network is an instance of the Station class. Each station has a `name` and `zone` attribute.
+
+### Journey Class
+
+Create a Journey Class that has an entry and an exit station
+

@@ -45,23 +45,6 @@ describe Oystercard do
     expect { subject.touch_out(exit_station_double) }.to change{subject.balance}.by(-min_balance)
   end
 
-  it 'will record the entry station when touching in' do
-    subject.top_up(min_balance)
-
-    subject.touch_in(entry_station_double)
-
-    expect(subject.entry_station).to eq(entry_station_double)
-  end
-
-  it 'will forget the entry station when touching out' do
-    subject.top_up(min_balance)
-
-    subject.touch_in(entry_station_double)
-    subject.touch_out(exit_station_double)
-
-    expect(subject.entry_station).to eq(nil)
-  end
-
   it 'has an empty journey_history by default' do
     expect(subject.journey_history).to be_empty
   end
