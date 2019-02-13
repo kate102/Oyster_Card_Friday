@@ -42,7 +42,7 @@ describe Oystercard do
 
   it 'reduces the card balance by the minimum fare value' do
     subject.top_up(min_balance)
-    expect { subject.touch_out(exit_station_double) }.to change{subject.balance}.by(-min_balance)
+    expect { subject.touch_out(exit_station_double) }.to change{subject.balance}.by(-1)
   end
 
   it 'has an empty journey_history by default' do

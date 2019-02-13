@@ -27,10 +27,9 @@ class Oystercard
   end
 
   def touch_in(station)
-    check_has_min_balance
-    @current_journey = Journey.new
+    touch_in_checks
+    add_journey_to_history
     @current_journey.touch_in(station)
-    @journey_history << @current_journey
   end
 
   def check_has_min_balance
@@ -38,18 +37,36 @@ class Oystercard
   end
 
   def touch_out(exit_station)
-    if !@journey_history.empty? && @journey_history.last.exit_station == nil
-      @journey_history.last.touch_out(exit_station)
-    else
-      @current_journey = Journey.new
-      @current_journey.touch_out(exit_station)
-      @journey_history << @current_journey
-    end
+    (!@journey_history.empty? && @journey_history.last.exit_station == nil) ? successful_touch_out(exit_station) : unsuccessful_touch_out(exit_station)
     deduct(MIN_BALANCE)
+  end
+
+  def check_last_journey
+    @journey_history.last.assign_penalty_fare if !@journey_history.empty? && !@journey_history.last.journey_complete?
+  end
+
+  def touch_in_checks
+    check_last_journey
+    check_has_min_balance
+  end
+
+  def add_journey_to_history
+    @current_journey = Journey.new
+    @journey_history << @current_journey
   end
 
   def deduct(amount)
     @balance -= amount
+  end
+
+  def successful_touch_out(exit_station)
+    @journey_history.last.touch_out(exit_station)
+  end
+
+  def unsuccessful_touch_out(exit_station)
+    add_journey_to_history
+    check_last_journey
+    @current_journey.touch_out(exit_station)
   end
 
   private :deduct, :check_has_min_balance, :check_if_max_balance_exceeded
